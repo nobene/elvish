@@ -1,0 +1,85 @@
+autoIndex = true
+prelude = "prelude"
+
+[[articles]]
+name = "language"
+title = "Language specification"
+group = -1
+
+[[articles]]
+name = "command"
+title = "The Elvish command"
+group = -1
+
+[[groups]]
+intro = """
+Modules in the Elvish standard library:
+"""
+
+[[articles]]
+name = "builtin"
+title = "Builtin functions and variables"
+
+[[articles]]
+name = "doc"
+title = "doc: Documentation of Elvish modules"
+
+[[articles]]
+name = "edit"
+title = "edit: API for the interactive editor"
+
+[[articles]]
+name = "epm"
+title = "epm: The Elvish Package Manager"
+
+[[articles]]
+name = "flag"
+title = "flag: Command-line flag parsing"
+
+[[articles]]
+name = "file"
+title = "file: File utilities"
+
+[[articles]]
+name = "math"
+title = "math: Math utilities"
+
+[[articles]]
+name = "md"
+title = "md: Markdown utilities"
+
+[[articles]]
+name = "os"
+title = "os: Operating system functionality"
+
+[[articles]]
+name = "path"
+title = "path: Filesystem path utilities"
+
+[[articles]]
+name = "platform"
+title = "platform: Information about the platform"
+
+[[articles]]
+name = "re"
+title = "re: Regular expression utilities"
+
+[[articles]]
+name = "readline-binding"
+title = "readline-binding: Readline-like key bindings"
+
+[[articles]]
+name = "runtime"
+title = "runtime: Information about the Elvish runtime"
+
+[[articles]]
+name = "store"
+title = "store: API for the Elvish persistent data store"
+
+[[articles]]
+name = "str"
+title = "str: String manipulation"
+
+[[articles]]
+name = "unix"
+title = "unix: Support for UNIX-like systems"

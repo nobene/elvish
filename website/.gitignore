@@ -1,0 +1,8 @@
+*.html
+!/template.html
+!*-ttyshot.html
+*.raw
+/tools/*.bin
+/_*
+/Elvish.docset
+/Elvish.tgz

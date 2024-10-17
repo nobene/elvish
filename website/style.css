@@ -1,0 +1,608 @@
+/**
+ * Global styling.
+ **/
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --code-font: "Fira Mono", Menlo, "Roboto Mono", Consolas, monospace;
+  --sans-font: Helvetica, Arial, sans-serif;
+  --link-color-on-white: #0645ad;
+  --link-color-on-black: #accbff;
+  /* Colors from 2014 Material Design color palettes
+     (https://m2.material.io/design/color/the-color-system) */
+  --blue-800: #1565C0;
+  --deep-orange-500: #FF5722;
+  --deep-orange-700: #E64A19;
+}
+
+html {
+  /* Prevent font scaling in landscape while allowing user zoom */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: "Source Serif", Georgia, serif;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+body.has-js .no-js, body.no-js .has-js {
+  display: none !important;
+}
+
+/* Firefox allows the user to specify colors in the UA stylesheet, so set them
+   explicitly. */
+body {
+  color: black;
+  background: white;
+}
+
+body.dark {
+  color: #eee;
+  background: black;
+}
+
+/**
+ * Top-level layout.
+ *
+ * There are two main elements: #navbar and #main. Both have a maximum
+ * width, and is centered when the viewport is wider than that.
+ **/
+
+/* #navbar is wrapped by #navbar-container, a black stripe that always span
+   the entire viewport. */
+#navbar-container {
+  width: 100%;
+  color: white;
+  background-color: #1a1a1a;
+  padding: 7px 0;
+}
+
+#navbar, #main {
+  /* Keep the content at 800px. */
+  max-width: 832px;
+  margin: auto;
+  padding: 0 16px;
+}
+
+/* 832px = max-width + left and right padding of #main.
+
+   After this screen width, #main will no longer get wider, but we allow
+   .extra-wide elements to continue to get wider up to 900px, using negative
+   left and right margins.
+*/
+@media screen and (min-width: 832px) {
+  .extra-wide  {
+    /* 32px is left and right padding of #main. */
+    width: calc(min(100vw - 32px, 900px));
+    /* upper bound is calculated by substituting 100vw = 900px + 32px */
+    margin-inline: calc(max((832px - 100vw) / 2, -50px));
+  }
+}
+
+/**
+ * Elements in the navbar.
+ *
+ * The navbar is made up of two elements, #site-title and ul#nav-list. The
+ * latter contains <li>s, each of which contains an <a>.
+ */
+
+#site-title, #nav-list {
+  display: inline-block;
+  /* Add spacing between lines when the navbar cannot fit in one line. */
+  line-height: 1.4;
+}
+
+#site-title {
+  /* Move the title downward 1px so that it looks more aligned with the
+   * category list. */
+  position: relative;
+  top: 1px;
+  font-size: 1.2em;
+  font-family: var(--code-font);
+}
+
+#site-title {
+  color: #5b5;
+}
+
+#nav-list {
+  /* Override the margins for <ul> set below for content. */
+  margin: 0 0 0 0.8em;
+}
+
+#nav-list li {
+  list-style: none;
+  display: inline-block;
+  /* Override the margins for <li> set below for content. */
+  margin: 0 0 0 0.2em;
+}
+
+#nav-list li a {
+  color: white;
+  border-radius: 3px;
+  padding: 1px 0.4em;
+  font-family: var(--code-font);
+}
+
+#nav-list li a:hover {
+  background-color: #444;
+}
+
+#nav-list li a.current {
+  color: black;
+  background-color: white;
+}
+
+/* The sponsor nav item is styled somewhat specially, and shares a lot with the
+   sponsor button on the homepage. */
+.sponsor::before {
+  font-family: "fa-elv-sh";
+  content: var(--icon-heart);
+  font-size: 0.9em;
+  font-weight: normal;
+  margin-top: -0.1em;
+  color: var(--deep-orange-500);
+}
+
+.button.sponsor::before {
+  padding-right: 0.3em;
+}
+
+/**
+ * Article header.
+ **/
+
+.timestamp {
+  margin-bottom: 0.6em;
+}
+
+.article-title {
+  padding: 16px 0;
+  border-bottom: darkred solid 2px;
+}
+
+/* Unfortunately we use <h1> for both the article title and the first-level
+   section title, and the default h1 rule is for the latter. Override it. */
+.article-title h1 {
+  font-size: 1.4em;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+ * Table of content.
+ */
+
+#toc-wrapper {
+  background-color: #f0f0f0;
+  margin: 0 0 16px 0;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+.dark #toc-wrapper {
+  background-color: #181818;
+}
+
+#toc-header {
+  padding: 1em 1em 0.6em 1em;
+  border-bottom: solid white 2px;
+  cursor: pointer;
+}
+
+#toc-status {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 2px;
+  border: 6px solid transparent;
+  position: relative;
+}
+
+/* Draw triangles in #toc-status using CSS. */
+
+#toc-status:not(.closed) {
+  border-top: 6px solid black;
+  top: 3px;
+}
+
+#toc-status.closed {
+  border-left: 6px solid black;
+  left: 3px;
+}
+
+#toc {
+  margin-left: -0.6em;
+  padding: 1em;
+}
+
+@media screen and (min-width: 600px) {
+  #toc {
+    column-count: 2;
+  }
+}
+
+#toc ul {
+  /* The value set for <ul> in content is a bit too big for ToC */
+  margin-left: 1em;
+}
+
+#toc li {
+  list-style: none;
+  /* Keep first-level ToC within one column */
+  break-inside: avoid;
+}
+
+/* When the ToC has two columns, the first item of the second column will not
+   the intended top margin (this is how columns work in CSS). Work around this
+   by adding some extra top padding in #toc, and removing the top margin of the
+   very first <li> element to match. */
+#toc > ul:first-child > li:first-child {
+  margin-top: 0;
+}
+
+/**
+ * Article content.
+ *
+ * Note: in the layout the table of content is part of div.article-content
+ * (because it's generated as part of the Markdown).
+ **/
+
+.article-content {
+  padding-top: 32px;
+}
+
+/* We only use h1 to h3, so don't bother styling h4+. */
+h1, h2, h3 {
+  line-height: 1.25;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: end;
+}
+
+h1 {
+  font-size: 1.3em;
+  /* Create a vertical bar 0.3em wide and 0.3em away to the left, and move the
+     text back to the original position. */
+  border-left: darkred solid 0.3em;
+  padding-left: 0.3em;
+  margin-left: -0.6em;
+}
+
+h2 {
+  font-size: 1.2em;
+}
+
+.api-comment {
+  margin-left: auto;
+  padding-left: 16px;
+  font-weight: normal;
+  font-size: 1rem;
+}
+
+p, ul, ol, pre {
+  /* Hardcode a pixel value since <pre> has a smaller font size. */
+  margin-bottom: 12px;
+}
+
+ul, ol {
+  margin-left: 1.5em;
+}
+
+li {
+  margin: 0.5em 0;
+}
+
+kbd {
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 0 3px;
+  margin: 1px;
+  font-size: 85%;
+  font-family: "Lucida Grande", Arial, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+td, th {
+  border: 1px solid #aaa;
+  text-align: left;
+  padding: 0.4em;
+}
+
+/* Make <ol>s inside table cells a bit more compact. This style is currently only
+   used for the list of instructions in get/default-shell.html, and likely needs
+   to be revised when more complex layouts arise (which may be never).
+
+   Safari seems to have a bug with certain (but not all) non-zero margin-top and
+   margin-bottom values inside table cells: the cell containing the <ol> will be
+   taller than other cells in the same row, causing their bottom border to
+   misalign. So we set them to 0 to be safe. It's probably some floating-point
+   error propagation issue. */
+td ol li {
+  margin-top: 0;
+  margin-bottom: 0.15em;
+}
+td ol li:last-child, td ol {
+  margin-bottom: 0;
+}
+
+.dark td, .dark th {
+  border-color: #444;
+}
+
+td.notice {
+  text-align: center;
+  background-color: #ddd;
+}
+
+.dark td.notice {
+  background-color: #333;
+}
+
+/** Links. */
+
+a {
+  text-decoration: none;
+  color: #0645ad;
+}
+
+#main a:not(.button):not(.anchor):hover {
+  text-decoration: underline;
+}
+
+.dark a {
+  color: var(--link-color-on-black);
+}
+
+a.anchor::before {
+  font-family: "fa-elv-sh";
+  content: var(--icon-link);
+  font-size: 0.9em;
+  font-weight: normal;
+  padding-left: 0.3em;
+}
+
+a.anchor {
+  opacity: 0; /* Hide by default */
+  color: inherit;
+}
+
+*:hover > a.anchor {
+  opacity: 1;
+}
+
+a[target="_blank"]::after {
+  font-family: "fa-elv-sh";
+  content: var(--icon-link-ext);
+  /* Set the icon some distance away. */
+  padding-left: 0.3em;
+  /* Make the icon slightly smaller and align it to the bottom.
+
+     For normal links we should be able to use "vertical-align: bottom", but
+     that doesn't work when the <a> is a flexbox (action buttons on the
+     homepage). */
+  font-size: 0.8em;
+  padding-top: 0.2em;
+}
+
+/**
+ * Code - inline code, block code and ttyshots.
+ */
+
+pre, code {
+  font-family: var(--code-font);
+  font-size: 0.85rem;
+  border-radius: 3px;
+}
+
+h1 code, h2 code, h3 code {
+  font-size: 0.8em;
+  padding: 0.1em 0.2em;
+}
+
+p code {
+  padding: 0.1em 0.5em;
+  background-color: #f0f0f0;
+}
+
+pre {
+  padding: 6px 10px;
+  border: 1px solid #bbbbbb;
+  background-color: white;
+}
+
+.dark code, .dark pre {
+  background-color: #181818;
+}
+
+/* Scroll just the <code>, not the <header>. */
+pre code {
+  display: block;
+  overflow-x: auto;
+}
+
+pre.language-ttyshot, pre.language-ttyshot code {
+  /* Ttyshots often have right-justified elements (right prompt, vertical
+     scrollbar), so make it as wide as its content. */
+  width: fit-content;
+  max-width: 100%;
+}
+
+pre.language-ttyshot code {
+  /* Set the line height to be exactly equal to the height of the line box, so
+     that vertical bars in ttyshots don't have gaps.
+
+     According to MDN, the best practice is to use a dimensionless value
+     relative to the "font size", but unfortunately different browsers disagree
+     on exact which font dimension to use as the "font size". Since we fix the
+     font anyway, we can hardcode a pixel value.
+
+     16px is the maximal value that works for Chrome - 17px is fine for Safari
+     and Firefox but leads to gaps in Chrome. 18px leads to gaps on all three.
+  */
+  line-height: 16px;
+  /* Unfortunately hardcoding line-height is still not sufficient, because
+     browsers also disagree on the height the font actually needs.
+
+     If the browser decides that the font needs more than 16px (which is the
+     case on Firefox 123), fixing line-height to 16px causes the content to
+     overflow vertically, causing a vertical scrollbar to be shown, which in
+     turn causes a horizontal scrollbar to be shown (because the vertical
+     scrollbar takes up some horizontal space, so the content now also overflows
+     horizontally). This works around that. */
+  overflow-y: hidden;
+}
+
+pre header {
+  font-family: var(--sans-font);
+  /* Cancel the top, left and right paddings of the <pre> and create a bit of
+     space between the header and the code. */
+  margin: -6px -10px 3px;
+  /* Replicate side paddings of the <pre>, and add appropriate top and bottom
+     paddings. */
+  padding: 4px 10px 3px;
+  background-color: #ddd;
+  color: black;
+}
+
+/* Set the fallback icon for the header and some common properties. */
+pre header::before {
+  content: var(--icon-doc-text);
+  font-family: "fa-elv-sh";
+  padding-right: 6px;
+  speak: never;
+}
+
+pre header a {
+  color: var(--link-color-on-white);
+}
+
+.dark pre header a {
+  /* Overwrite color of ".dark a". */
+  color: var(--link-color-on-white);
+}
+
+/* md2html generates a <p> inside the <header>. */
+pre header p {
+  display: inline;
+}
+
+pre.language-elvish header {
+  background-color: #ddeedd;
+  color: black;
+}
+
+pre.language-elvish header::before {
+  content: var(--icon-file-code);
+}
+
+pre[class^="language-"][class$="-transcript"] header, pre.language-ttyshot header {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+pre[class^="language-"][class$="-transcript"] header a, pre.language-ttyshot header a {
+  color: var(--link-color-on-black);
+}
+
+pre[class^="language-"][class$="-transcript"] header::before, pre.language-ttyshot header::before {
+  content: var(--icon-terminal);
+}
+
+/**
+ * Category content.
+ **/
+
+#main.category {
+  padding-top: 32px;
+}
+
+.article-list {
+  margin-left: 0;
+  list-style: none;
+}
+
+.article-list li {
+  /* A large left padding for the bullet list .*/
+  padding: 6px 8px 6px 30px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.article-list li:nth-child(even) {
+  background: #f6f6f6;
+}
+
+.dark .article-list li:nth-child(even) {
+  background: #181818;
+}
+
+.article-list li:nth-child(odd) {
+  background: #e8e8e8;
+}
+
+.dark .article-list li:nth-child(odd) {
+  background: #222;
+}
+
+.article-list li header::before {
+  /* Using a flexbox for the <li> loses the bullet. Recreate it and position it
+     within the left-padding . */
+  background-color: black;
+  border-radius: 4px;
+  content: " ";
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  margin-left: -17px;
+  margin-top: 7px;
+  speak: never;
+}
+
+.dark .article-list li header::before {
+  background-color: white;
+}
+
+.article-list:nth-of-type(even) li header::before {
+  /* Use square bullets for every other article list. */
+  border-radius: 0px;
+}
+
+.article-list li time {
+  margin-left: auto;
+  padding-left: 16px;
+}
+
+/* Used on learn/ */
+.new {
+  font-size: 0.8em;
+  font-weight: bold;
+  vertical-align: top;
+  color: red;
+}
+
+/**
+ * Layout utilities.
+ **/
+
+.clear {
+  clear: both;
+}
+
+.no-display {
+  display: none !important;
+}
